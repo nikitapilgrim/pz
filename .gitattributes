@@ -1,0 +1,2 @@
+# Keep LF line endings on every platform: the scripts and configs run inside Linux containers.
+* text=auto eol=lf

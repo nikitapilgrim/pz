@@ -1,0 +1,40 @@
+# Kit for characters whose profession id contains "insurgent" (the file name). Dropped automatically next to a
+# new character by the server (scripts/pz_kits.lua), or given by hand: docker compose run --rm pz-kit <username>
+#
+#   <Module.ItemId> [count]                                   always given
+#   pick <group>: <Module.ItemId> [count], <Module.ItemId> [count], ...
+#       one line per option; one option per group is chosen at random. The first item is the main one (the
+#       weapon): if the game does not know it (mod disabled, wrong ID), another option of the group is used.
+#
+# IDs come from the game's 42.18 item scripts and the mods' own files (VFE, PNV, Signal Smoke). The server log shows
+# every unknown ID as "[pz-kit-auto] item ... failed"; pz-kit prints the server's reply for every line. Fix IDs here:
+# the folder is mounted, the change applies on the next docker compose up -d (automatic) or right away (pz-kit).
+# More IDs: the admin item list in game.
+
+# Primary weapon, one of:
+pick primary: Base.AssaultRifle, Base.556Clip 3, Base.556Box 2        # M16 (vanilla)
+pick primary: Base.CAR15, Base.556Clip 3, Base.556Box 2               # CAR-15 carbine (Vanilla Firearms Expansion)
+pick primary: Base.MP5SD, Base.9mmClip30 3, Base.Bullets9mmBox 2      # MP5SD, integrally suppressed (VFE)
+
+# Sidearm, one of:
+pick sidearm: Base.Pistol, Base.9mmClip 2, Base.Bullets9mmBox 1       # M9 (vanilla)
+pick sidearm: Base.MK23SOCOM, Base.45Clip12 2, Base.Bullets45Box 1    # Mk 23 SOCOM (VFE)
+pick sidearm: Base.MK2SD, Base.22ClipPistol 2, Base.22Box 1           # Mk2-SD, integrally suppressed .22 (VFE)
+
+# Night vision (PNV + Beathoven's Night Vision Framework): AN/PVS-14 monocular, flipped up, on a head strap
+# (right-click > helmet mount / flip down). Right-click it in the inventory > Insert Battery; V toggles it.
+# One battery lasts 12 game hours (1 real hour with 2-hour days).
+Base.NVG_ANPVS-14_UP-HeadStrap 1
+Base.Battery 2
+
+# Signals (Signal Smoke): green smoke to mark a landing zone or a cache, chemlights for the night
+SignalSmoke.SmokeGrenadeGreen 1
+SignalSmoke.ChemlightGreen 2
+
+# Gear
+Base.HuntingKnife 1
+Base.WalkieTalkie5 1          # military radio: also calls Military Drop supply flights
+Base.Vest_BulletArmy 1
+Base.Hat_Army 1
+Base.Bag_ALICEpack_Army 1
+Base.Bandage 4

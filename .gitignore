@@ -1,0 +1,18 @@
+# Local overrides and secrets
+.env
+
+# World backups (contain the player DB and passwords)
+backups/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Logs and Python bytecode
+*.log
+__pycache__/
+*.pyc

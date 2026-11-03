@@ -1,0 +1,7 @@
+// Server-side overrides for the Bandits mod (3268487204), installed by pz-init into Lua/bandits/bandits.txt in the data
+// volume on every start. Bandits reads its own bandits.txt first and this LOCAL file last, merging field by field per
+// template ID ([guid] header, then "section: key = value" lines). Empty on purpose: no overrides right now.
+//
+// Example (2026-11-05, removed again the same day): move a template to a clan ID that does not exist so it is never
+// picked, e.g. the Varmint Rifle snipers 0967f76b-6910-4f7d-bab6-1a4ae3bd2d7c and c5a7383e-f2fe-46fb-8b1d-49061f69c684
+// (ArmyDesert) and bebdfbab-1cc2-409c-a41c-666531627132 (Legion). Write the cid line without the leading "//".

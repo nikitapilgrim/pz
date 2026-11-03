@@ -1,0 +1,102 @@
+# Project Zomboid B42 dedicated server with the Project Viewpoint modpack.
+# Same single command on Windows / macOS (Docker Desktop) and Linux:
+#
+#   docker compose up -d --build
+#
+#   pz-init     one-shot, before every start: volume permissions, generated passwords, configs, Workshop mods
+#   pz-server   the game server (starts when pz-init has finished)
+#   pz-backup   on demand:  docker compose run --rm pz-backup
+#   pz-restore  on demand:  docker compose run --rm pz-restore <archive>
+#
+# Data lives in Docker volumes: pz_pz-files (game + mods, re-downloadable) and pz_pz-data (world, accounts,
+# configs, passwords). `docker compose down -v` DELETES both.
+# Needs Docker Compose 2.24+ (optional .env file).
+name: pz
+
+x-pz-common: &pz-common
+  image: pz-viewpoint:local
+  platform: linux/amd64
+  env_file:
+    - server.env
+    - mods.env
+    - path: .env
+      required: false
+
+services:
+  pz-server:
+    <<: *pz-common
+    build: .
+    container_name: pz-server
+    restart: unless-stopped
+    depends_on:
+      pz-init:
+        condition: service_completed_successfully
+    ports:
+      - "${GAME_PORT:-16261}:${GAME_PORT:-16261}/udp"
+      - "${DIRECT_PORT:-16262}:${DIRECT_PORT:-16262}/udp"
+      # RCON is not published; it is used inside Docker for graceful shutdown and backups.
+    volumes:
+      - pz-files:/home/steam/zomboid
+      - pz-data:/home/steam/zomboid_data
+    # The entrypoint saves the world over RCON on stop. Kept below systemd's 90 s default on Linux hosts.
+    stop_grace_period: 80s
+    # On a machine shared with other services the OOM killer must hit the game server, not them.
+    mem_limit: ${CONTAINER_MEM_LIMIT:-6500m}
+    memswap_limit: ${CONTAINER_MEMSWAP_LIMIT:-7500m}
+    cpu_shares: 512
+    oom_score_adj: 500
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  pz-init:
+    <<: *pz-common
+    pull_policy: never
+    user: "0:0"
+    command: ["bash", "/pz/scripts/init.sh"]
+    volumes:
+      - pz-files:/home/steam/zomboid
+      - pz-data:/home/steam/zomboid_data
+      - ./config/kits:/pz/kits:ro
+    restart: "no"
+
+  pz-backup:
+    <<: *pz-common
+    pull_policy: never
+    profiles: ["tools"]
+    user: "0:0"
+    command: ["bash", "/pz/scripts/backup.sh"]
+    volumes:
+      - pz-data:/home/steam/zomboid_data
+      - ./backups:/backups
+
+  pz-restore:
+    <<: *pz-common
+    pull_policy: never
+    profiles: ["tools"]
+    user: "0:0"
+    entrypoint: ["bash", "/pz/scripts/restore.sh"]
+    volumes:
+      - pz-data:/home/steam/zomboid_data
+      - ./backups:/backups
+
+  # docker compose run --rm pz-kit <username> [kit]   - starting kit via admin commands over RCON
+  pz-kit:
+    <<: *pz-common
+    pull_policy: never
+    profiles: ["tools"]
+    user: "0:0"
+    entrypoint: ["bash", "/pz/scripts/kit.sh"]
+    volumes:
+      - pz-data:/home/steam/zomboid_data:ro
+      - ./config/kits:/pz/kits:ro
+
+volumes:
+  pz-files:
+  pz-data:
