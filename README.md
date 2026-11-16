@@ -1,11 +1,11 @@
 # Project Zomboid B42 · Project Viewpoint Server 🧟
 
-Выделенный сервер **Project Zomboid Build 42.21** в Docker с модпаком **Project Viewpoint** (игра от 1-го и 3-го лица в 3D) и сюжетным режимом для небольшой компании: **спецназ против подопытных из секретной лаборатории**.
+Выделенный сервер **Project Zomboid Build 42.22** (Viewpoint 0.1.7) в Docker с модпаком **Project Viewpoint** (игра от 1-го и 3-го лица в 3D) и сюжетным режимом для небольшой компании: **спецназ против подопытных из секретной лаборатории**.
 
-> *Dockerized Project Zomboid B42.21 dedicated server: one `docker compose up` on Windows, macOS or Linux. Project Viewpoint first-person 3D modpack (52 Workshop items), period music on cassettes, two-faction story setup tuned for 1-3 hour sessions.*
+> *Dockerized Project Zomboid B42.22 dedicated server: one `docker compose up` on Windows, macOS or Linux. Project Viewpoint first-person 3D modpack (92 Workshop items), period music on cassettes, two-faction story setup tuned for 1-3 hour sessions.*
 
 - 🐳 **Одна команда на любой системе:** Windows и macOS (Docker Desktop) или Linux. Пароли, конфиги, права и моды контейнер готовит сам.
-- 🎮 **B42.21** (ветка Steam `public`), 52 мода из Workshop. Mod ID и зависимости 41 мода сверены с `mod.info` на тестовом сервере, добавленные позже — по описаниям в Workshop. Списки «Required items» из Steam сверены для 50 модов, у двух оставшихся требования взяты из `mod.info` на GitHub и из описания.
+- 🎮 **B42.22** (ветка Steam `public`), 92 мода из Workshop. Mod ID и зависимости 41 мода сверены с `mod.info` на тестовом сервере, добавленные позже — по описаниям в Workshop. Списки «Required items» из Steam сверены для 50 модов, у двух оставшихся требования взяты из `mod.info` на GitHub и из описания.
 - 🔫 **Спецназ со снаряжением:** новому персонажу с профессией Insurgent сервер сам выдаёт комплект: случайные автомат и пистолет (бывают бесшумные), ПНВ, сигнальный дым. Оружейный пак Vanilla Firearms Expansion добавляет ~40 стволов.
 - 🚁 **Вертолёты и поставки:** вертолёт виден в 3D и прилетает в среднем раз в ~1,5 часа игры; по рации можно заказать военный ящик, а вертолёты снабжения иногда разбиваются (Military Drop).
 - ⏱ **Настроен под 1–3 часа игры в день:** частые события, быстрый опыт и чтение, меньше рутины с едой и сном, базу не разграбят, пока хозяин офлайн.
@@ -184,23 +184,19 @@ docker compose run --rm pz-init passwords
 
 ## Моды
 
-101 предмет Workshop, 113 Mod ID. Списки лежат в `mods.env` (`MOD_IDS` и `MOD_NAMES`) в порядке загрузки: зависимости грузятся раньше зависящих модов.
+92 предмета Workshop, 104 Mod ID. Списки лежат в `mods.env` (`MOD_IDS` и `MOD_NAMES`) в порядке загрузки: зависимости грузятся раньше зависящих модов.
 
 | Мод | Workshop ID | Mod ID | Что даёт |
 | --- | --- | --- | --- |
 | **Ядро** | | | |
 | ZombieBuddy | 3619862853 | `ZombieBuddy` | Загрузчик Java-модов; на сервере работает как Java-агент |
 | Project Viewpoint | 3809306528 | `Viewpoint` | Вид от 1-го и 3-го лица в 3D |
-| Project Viewpoint QOL | 3811256204 | `ProjectViewpointQOLLegacy0.1.6` | Удобства управления в 3D (клиентский). Сейчас грузится сабмод для Viewpoint 0.1.6.1: основной `ProjectViewpointQOL` с 3 ноября требует 0.1.7 и на 0.1.6.1 сам отключается. С выходом 0.1.7 сервер переключит его сам (см. «Viewpoint 0.1.7») |
-| Viewpoint Turbo | 3812559973 | `ViewpointTurbo` | Оптимизация FPS (клиентский) |
-| Isometric No More | 3819166046 | `isometricnomore` | Строительство и взаимодействия прямо в 3D, быстрое меню на правый клик. Встроен в Viewpoint 0.1.7; на 0.1.7 сервер уберёт его из списка сам |
-| Viewpoint - Interface | 3812616893 | `ViewpointUI` | Интерфейс для 3D: действия по E с выбором колесом, быстрый лут у прицела, инвентарь в стиле DayZ с 3D-персонажем, крафт и стройка с 3D-превью, свой HUD. Всё через обычные действия игры, своего сетевого трафика нет (клиентский). QOL и Isometric No More умеют с ним работать |
+| Project Viewpoint QOL | 3811256204 | `ProjectViewpointQOL` | Удобства управления в 3D (клиентский). Поддерживает Viewpoint 0.1.6.2 и 0.1.7 |
 | **3D-мир** | | | |
 | 6282 3D models for Viewpoint | 3810302175 | `PZVoxelStudioViewpoint` | 3D-модели мебели и предметов вместо спрайтов |
 | Viewpoint - Visible Loot | 3818189653 | `ViewpointVisibleLoot` | Лут виден на полках и в ящиках |
 | 3D Curtains & Blinds | 3818873810 | `DGVCurtains` | Шторы и жалюзи |
 | 3D Windows for Viewpoint | 3820833348 | `DGVWindows3D` | Окна и рамы |
-| Viewpoint - 3D Fences | 3814486926 | `ViewpointFences3D` | Заборы |
 | Viewpoint: Living Props | 3816442251 | `ViewpointLivingProps` | Огонь плит, экраны ТВ, часы и т.п. (клиентский) |
 | Viewpoint Vehicle Interiors | 3826550325 | `ViewpointInteriors` | Салоны машин |
 | DeadWorks Vehicle Framework | 3825724093 | `DeadWorksVehicleFramework` | Зависимость 3D RVs |
@@ -215,10 +211,7 @@ docker compose run --rm pz-init passwords
 | Alice's Weapon Sling | 3775549570 | `alicesWeaponSling;alicesWeaponSlingRadialMenu` | Ружейный ремень: до двух (спереди в 3 положениях и за спиной), находится в мире или крафтится. Слоты у него свои, с кобурами и поясами не пересекаются. Второй Mod ID — радиальное меню для быстрой смены оружия |
 | **Атмосфера** | | | |
 | Silent Viewpoint Enhanced | 3827396721 | `SilentViewpointEnhanced` | Атмосферный шейдерпак, туман |
-| Viewpoint - Immersive Effects | 3812984535 | `ViewpointImmersiveEffects` | Эффекты от первого лица |
 | Viewpoint - Visceral | 3820965001 | `VisceralViewpoint` | Настоящие 3D-раны у зомби, отрывание конечностей, разрубание пополам, взрывы голов, лучше рэгдоллы; учитывает True Ballistics (клиентский, Java). Заменил 3D Blood VFX |
-| Viewpoint Advanced Flashlight | 3818857682 | `ViewpointAdvancedFlashlight` | Объёмный луч фонаря |
-| Viewpoint - Surface Fix | 3814398576 | `ViewpointSurface` | В 3D у стен и потолков правильные обои и отделка, пропадают дыры во внешних стенах некоторых домов, потолки зависят от типа комнаты (клиентский, Java) |
 | Immersive Driving | 3817413313 | `ImmersiveDriving` | Камера реагирует на разгон, торможение, повороты и удары, руки крутят руль, анимации ключа и запуска двигателя; другие игроки видят, куда ты смотришь (Java). Настройки: Options → Mods → Immersive Driving |
 | Viewpoint - Physics & Collision | 3817135911 | `ViewpointPhysicsProps` | Настоящая физика предметов: стул отъезжает, бак отлетает от машины, конус падает от выстрела, мебель блокирует ровно там, где стоит; удары шумят и привлекают зомби, взрывы разбрасывают вещи. Сервер следит, чтобы все видели одно и то же |
 | Better Vehicle Dynamics | 3728775267 | `BetterVehicleDynamics` | Физика машин: кривая крутящего момента, сцепление зависит от асфальта, дождя, снега и бездорожья, торможение двигателем, груз замедляет разгон и увеличивает расход, следы шин. Автомат переключается по типу двигателя (фургоны рано, спорткары поздно). Кто сам выбрал ручную коробку, получает сцепление (держать левый Ctrl), нейтраль, настоящую заднюю и может заглохнуть; на HUD — схема рычага. Дрифт по клавише (назначить в Options → Mods) на скорости от 20 км/ч. Для теста включена реальная мощность и масса машин: модовые машины, включая дома на колёсах, получают до ×4 мощности (`RealismHPWeight`, выключить, если перебор). Java-часть работает у каждого водителя через ZombieBuddy, серверу ничего не нужно |
@@ -240,7 +233,6 @@ docker compose run --rm pz-init passwords
 | Bandits Radio Expansion | 3630494926 | `BanditsRadioExp` | Аддон к Bandits: бандиты сдаются (особенно если подойти со спины и навести оружие), вызывают подкрепление по рации, роняют оружие; дробовик и взрывы отрывают им руки и ноги. У нас включено и для обычных зомби: от дробовика и крупного калибра у них отлетают руки (`Bandits.Addon_EnableZombieGore`). Культи игроков с ним получают текстуры из этого аддона, а не кожу тела Tomb (модели остаются подогнанными) |
 | Project Real Limbs | 3827957976 | `RealLimbs` | Физика тел: зомби шатаются и падают в зависимости от того, куда и как сильно ударили, отлетают от машины, тела остаются там, где упали. Пинок (клавиша в Options → Mods). Физику считает клиент того, кто ударил. Урон ванильный |
 | Lethal Stealth | 3531611692 | `RET_LethalStealth` | Лечь (`U`) и присесть с прицеливанием (`C`) с бонусом к точности, ползком, пролезть под машиной |
-| Viewpoint Stealth Sight | 3819082666 | `StealthSight` | У зомби поле зрения: спереди замечают быстро, сбоку медленнее, со спины почти никогда; замечают не сразу. Учитываются свет, приседание, фонарик, запах крови и шаги. Решает отдельно для каждого игрока, так что в группе один может отвлекать, другой заходить сзади |
 | Stealth Attack | 3786073264 | `StealthAttackBySwas` | Скрытое убийство: в приседе ударить холодным оружием незаметившего зомби со спины — шанс убить сразу (Скрытность 0: 14%, 3: 51%, 7: 100%). Убийство засчитывает сервер |
 | Knox Wildlife (бета) | 3818096743 | `KnoxWildlife` | Медведи, койоты, лоси, рыси, кабаны; разделка и выделка шкур. Взрослые медведи нападают на игроков. Голодные койоты съедают трупы зомби вместе с одеждой и лутом (настройка в песочнице, по умолчанию включена) |
 | **Персонажи** | | | |
@@ -274,7 +266,6 @@ docker compose run --rm pz-init passwords
 | Fitness & Workout Overhaul | 2940354599 | `FWOFitnessWorkoutOverhaul;FWOBenchPressTreadmill` | Меньше гринда фитнеса и силы, беговая дорожка и жим лёжа. Как и Dynamic Traits, дополняет обработку упражнений, а не заменяет её; бонусы настроения при включённом DT оставляет ему |
 | **Интерфейс** | | | |
 | Better Sorting Reborn | 3774523641 | `BetterSortingReborn` | Сортировка предметов по категориям |
-| Proximity Inventory | 2847184718 | `ProximityInventory` | Весь лут вокруг в одной вкладке |
 | Mod Update and Alert System | 3077900375 | `ChuckleberryFinnAlertSystem` | Зависимость errorMagnifier |
 | errorMagnifier | 2896041179 | `errorMagnifier` | При ошибке Lua появляется кнопка с текстом ошибки: другу проще прислать баг |
 | **Музыка** | | | |
@@ -291,10 +282,10 @@ docker compose run --rm pz-init passwords
 
 **Не добавлены (проверены 4 ноября 2026):**
 - [B42] UH-1B Helicopter (3409723807) с Aviation Core (3783444342): с 8 по 31 октября несколько игроков пишут, что в MP двигатель глохнет через пару секунд после взлёта. Ещё жалобы: вертолёты множатся при каждом заходе, с Viewpoint не спавнятся. Мод не обновлялся с 22 августа. Летающий Huey у нас уже есть (UH-1 Huey). Файлы двух модов не пересекаются, так что UH-1B можно добавить позже, когда автор починит MP.
-- Viewpoint - Right Click Fix (3819018807): правый клик в 3D уже занят быстрым меню Isometric No More, а действия по прицелу открывает Viewpoint Interface.
+- Viewpoint - Right Click Fix (3819018807): правый клик в 3D уже занят быстрым меню Isometric No More, а действия по прицелу открывает Viewpoint Interface. С 16 ноября 2026 оба заменены встроенным меню Viewpoint 0.1.7.
 - DayZ Health HUD (3818297469): повторяет HUD из Viewpoint Interface. Ещё у него есть опция игрока «показывать заражение Knox»: с ней пропадает интрига с ампутацией в The Only Cure+, а сервер эту опцию запретить не может.
 
-**Не добавлен (5 ноября 2026):** Viewpoint - Light Fix (3811344119). Дальность фонарей и фары машин, но фонари у нас уже настраивает Viewpoint Advanced Flashlight, и оба меняют одни и те же шейдеры и фонари.
+**Не добавлен (5 ноября 2026):** Viewpoint - Light Fix (3811344119). Дальность фонарей и фары машин, но фонари у нас уже настраивает Viewpoint Advanced Flashlight, и оба меняют одни и те же шейдеры и фонари. С 16 ноября 2026 фонари свои у Viewpoint 0.1.7.
 
 **Не добавлен (5 ноября 2026):** Yes' Improved Stealth v2 (3053929034): прячет игрока, ставя зомби общий флаг «бесполезный» с компьютера крадущегося, поэтому такой зомби игнорировал бы всю группу.
 
@@ -319,25 +310,27 @@ docker compose run --rm pz-init passwords
 
 ### Viewpoint 0.1.7
 
-Сейчас в Workshop Viewpoint 0.1.6.1 (от 15 октября). Ни даты выхода 0.1.7, ни списка изменений для аддонов пока нет. Сервер при каждом перезапуске качает обновления модов, поэтому 0.1.7 придёт без предупреждения. Что известно по файлам модов (проверено 4 ноября 2026):
+Viewpoint 0.1.7 вышел 15 ноября 2026 и требует Build 42.22. Сервер ставит ветку `public`. Что в ней уже 42.22, видно по страницам модов (6282 models и Vehicle Interiors пишут про 42.22.2), но на нашем сервере это не проверено. Игра и Viewpoint обновятся при следующем перезапуске сами.
 
-- **Переключится само.** В 0.1.7 встроен Isometric No More, а основной QOL требует именно 0.1.7. `scripts/server.sh` читает версию скачанного Viewpoint. Пока это 0.1.6.x, он грузит `ProjectViewpointQOLLegacy0.1.6` и Isometric No More. Начиная с 0.1.7 он грузит `ProjectViewpointQOL` и убирает Isometric No More. Скачать обновление сервер успевает только при старте, поэтому новый набор включится со следующего перезапуска после обновления Viewpoint. Принудительно выбрать набор можно через `VIEWPOINT_COMPAT=legacy|current` в `.env`.
-- **Готов к 0.1.7 по коду:** ни один из наших аддонов (Viewpoint - Roofs, единственный с такой проверкой в коде, убран 5 ноября 2026).
-- **Больше всего риска:** Java-аддоны, которые лезут во внутренности Viewpoint и написаны под 0.1.6:
-  - Viewpoint Turbo: кэш шейдеров «для Viewpoint 0.1.6/0.1.6.1»;
-  - Recoil & ADS: подстраивается под стрельбу 0.1.6;
-  - Vehicle Interiors: по пересказу его описания на зеркале top-mods сделан строго под 0.1.6.1. В коде проверки версии не нашлось.
-  - Viewpoint - Visceral: у него, как у самого Viewpoint, `versionMax=42.21`, и он патчит рендер и шейдеры Viewpoint.
-  - Project Real Limbs: Java-патчи анимации и попаданий, в том числе в Viewpoint.
-  - Viewpoint - Physics & Collision: патчит модели, сборку объектов и столкновения Viewpoint.
-  - Surface Fix и Immersive Driving (добавлены 5 ноября 2026): патчат внутренние классы Viewpoint (меш мира, шейдеры, камеру). Surface Fix выложен с исходниками «для разработчика Viewpoint», так что его исправления могут войти в 0.1.7, как вошёл Isometric No More.
+**Убраны 16 ноября 2026** (то, что 0.1.7 делает сам, и то, чего больше нет):
 
-  Если после обновления что-то из этого ломает игру, временно уберите мод через `MODS_DISABLED=...` в `.env` и выполните `docker compose up -d`.
-- **Косвенный признак:** автор QOL собрал коллекцию «моды, которые хорошо идут с Viewpoint 0.1.7 (nightly)» ([2690796635](https://steamcommunity.com/workshop/filedetails/?id=2690796635)). Из нашего пака в ней Recoil & ADS, True Ballistics, Advanced Throwables, 6282 models, Better Holsters & Belts, Alice's Weapon Sling и Fluffy Hair. Это подборка, а не тест совместимости: остальных наших модов там нет, но это не значит, что они ломаются.
-- **Меньше риска:** True Ballistics, Interface, Advanced Throwables, Immersive Effects, Advanced Flashlight, Death Cam, Living Props, Visible Helicopter Events, UH-1 Huey Viewpoint Support. У них есть Java-часть, но привязки к версии в коде нет. Как они поведут себя на 0.1.7, неизвестно.
-- **Почти без риска:** чистые пакеты моделей (6282 models, Visible Loot, Curtains, Windows, Fences, Holsters & Belts), шейдерпак Silent Viewpoint Enhanced и все моды без Viewpoint.
+| Мод | Workshop ID | Почему |
+| --- | --- | --- |
+| Isometric No More | 3819166046 | Встроен в 0.1.7, автор просит его выключить |
+| Viewpoint - Interface | 3812616893 | В 0.1.7 свой экран инвентаря (Tab) и новое меню действий с клавишами F/G/Z |
+| Proximity Inventory | 2847184718 | Лут вокруг (Vicinity) теперь колонка нового инвентаря |
+| Viewpoint Advanced Flashlight | 3818857682 | В 0.1.7 новые фонари со своим лучом, яркостью и дальностью |
+| Viewpoint Turbo | 3812559973 | Сделан под рендер 0.1.6, а в 0.1.7 рендер переписан и сам стал почти вдвое быстрее |
+| Surface Fix | 3814398576 | Автор пометил его [BROKEN]; в 0.1.7 исправлены текстуры стен и добавлены потолки во всех комнатах |
+| Viewpoint - 3D Fences | 3814486926 | Недоступен в Workshop (скрыт или удалён автором) |
+| Viewpoint - Immersive Effects | 3812984535 | Недоступен в Workshop (скрыт или удалён автором) |
+| Viewpoint Stealth Sight | 3819082666 | Недоступен в Workshop (скрыт или удалён автором). Не дублирует 0.1.7: если автор вернёт его под 0.1.7, его можно добавить обратно |
 
-Отдельно: у самого Viewpoint `versionMax=42.21`, так что обновление игры до 42.22 он не переживёт, пока автор его не обновит.
+QOL переключён на основной `ProjectViewpointQOL`: автор удалил сабмод для 0.1.6 11 ноября, основной работает на 0.1.6.2 и 0.1.7. Переключатель `VIEWPOINT_COMPAT` больше не нужен и убран. Better Sorting Reborn пока оставлен: он только раскладывает предметы по категориям и с новым инвентарём не конфликтует.
+
+**Под 0.1.7 подтверждены авторами:** QOL, Visible Loot, Silent Viewpoint Enhanced (проверен автором на RC4, не на релизе; в моде две папки шейдерпака, игрокам нужно выбрать `silent_viewpoint_enhanced_1_1_rc4`).
+
+**Не подтверждены, остались в паке:** остальные Java-аддоны Viewpoint (Recoil & ADS, True Ballistics, Advanced Throwables, Visceral, Real Limbs, Physics & Collision, Living Props, Vehicle Interiors, Death Cam, Immersive Driving, Visible Helicopter Events, UH-1 Huey, 3D RVs). В их описаниях на 16 ноября про 0.1.7 ничего нет (журналы изменений и комментарии прочитать не удалось: Steam ограничил запросы). У Vehicle Interiors в требованиях Viewpoint 0.1.6.2, у Visible Helicopter Events — 0.1.6.1. Не проверено и поле `versionMax` в `mod.info`: мод, ограниченный 42.21, на 42.22 просто не загрузится. Автор Visible Loot предупреждал, что на ночных сборках 0.1.7 многие аддоны Viewpoint не работали, а некоторые совсем ломали отрисовку мира. Если после обновления мир не рисуется или игра падает, выключайте их по одному через `MODS_DISABLED=...` в `.env` и выполняйте `docker compose up -d`.
 
 ## Обслуживание
 

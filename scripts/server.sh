@@ -10,22 +10,10 @@ for key in SERVER_PASSWORD ADMIN_PASSWORD RCON_PASSWORD; do
   fi
 done
 
-# Viewpoint version switch. mods.env is written for Viewpoint 0.1.6.1: QOL's legacy sub-mod (the main ProjectViewpointQOL
-# switches itself off on anything but 0.1.7) and Isometric No More (merged into Viewpoint 0.1.7, its author asks to drop
-# it there). Once the downloaded Viewpoint reports another version, load the main QOL and drop Isometric No More.
-# The game updates Workshop items while it starts, so this takes effect from the restart after Viewpoint updates.
-# VIEWPOINT_COMPAT (in .env): auto (default), legacy (keep mods.env as is) or current (switch now).
+# Viewpoint version, for the log (mods.env is written for Viewpoint 0.1.7 on Build 42.22).
 vp_info="$(find "${ZOMBOID_PATH:-/home/steam/zomboid}" -type f -name mod.info -path '*108600/3809306528/mods/Viewpoint/*' 2>/dev/null | sort | tail -n 1)"
 vp_version="$( [ -n "$vp_info" ] && grep -E '^modversion=' "$vp_info" | head -n 1 | cut -d= -f2 | tr -d '\r ')"
-vp_compat="${VIEWPOINT_COMPAT:-auto}"
-if [ "$vp_compat" = "auto" ]; then
-  case "$vp_version" in ""|0.1.6|0.1.6.*) vp_compat=legacy ;; *) vp_compat=current ;; esac
-fi
-if [ "$vp_compat" = "current" ]; then
-  MOD_NAMES="$(printf '%s' "${MOD_NAMES:-}" | tr ';' '\n' | sed 's/^ProjectViewpointQOLLegacy0\.1\.6$/ProjectViewpointQOL/' | grep -vx 'isometricnomore' | paste -sd ';' -)"
-  export MOD_NAMES
-fi
-echo "[pz-server] Viewpoint ${vp_version:-not downloaded yet}: ${vp_compat} add-on set"
+echo "[pz-server] Viewpoint ${vp_version:-not downloaded yet}"
 
 # MODS_DISABLED (in .env, e.g. "DynamicTraits;MoodleFramework"): take mods out of the load list for a test without
 # editing mods.env. The Workshop items stay downloaded.
